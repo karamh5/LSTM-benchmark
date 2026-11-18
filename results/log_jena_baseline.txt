@@ -1,0 +1,23 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1794824306.584987     366 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1794824306.613369     366 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 AMX_FP16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1794824307.471865     366 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+/usr/local/lib/python3.13/site-packages/keras/src/trainers/epoch_iterator.py:74: UserWarning: `shuffle=True` was passed, but will be ignored since the data `x` was provided as a tf.data.Dataset. The Dataset is expected to already be shuffled (via `.shuffle(buffer_size)`).
+  self.data_adapter = data_adapters.get_data_adapter(
+Epoch 1/10
+1172/1172 - 81s - 69ms/step - loss: 0.2004 - val_loss: 0.1512
+Epoch 2/10
+1172/1172 - 70s - 60ms/step - loss: 0.1243 - val_loss: 0.1376
+Epoch 3/10
+1172/1172 - 66s - 56ms/step - loss: 0.1134 - val_loss: 0.1413
+Epoch 4/10
+1172/1172 - 93s - 80ms/step - loss: 0.1092 - val_loss: 0.1447
+Epoch 5/10
+1172/1172 - 209s - 179ms/step - loss: 0.1069 - val_loss: 0.1488
+Epoch 6/10
+1172/1172 - 121s - 103ms/step - loss: 0.1046 - val_loss: 0.1453
+Epoch 7/10
+1172/1172 - 150s - 128ms/step - loss: 0.1028 - val_loss: 0.1412
+RESULT baseline params 5153 val_mse 0.1376 MAE degC 2.506 time 791.1

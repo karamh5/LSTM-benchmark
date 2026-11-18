@@ -1,0 +1,19 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1794824563.222074     552 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1794824563.438609     552 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 AMX_FP16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1794824567.650961     552 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+/usr/local/lib/python3.13/site-packages/keras/src/trainers/epoch_iterator.py:74: UserWarning: `shuffle=True` was passed, but will be ignored since the data `x` was provided as a tf.data.Dataset. The Dataset is expected to already be shuffled (via `.shuffle(buffer_size)`).
+  self.data_adapter = data_adapters.get_data_adapter(
+Epoch 1/5
+1172/1172 - 370s - 316ms/step - loss: 0.1716 - val_loss: 0.1523
+Epoch 2/5
+1172/1172 - 314s - 268ms/step - loss: 0.1217 - val_loss: 0.1540
+Epoch 3/5
+1172/1172 - 188s - 161ms/step - loss: 0.1145 - val_loss: 0.1679
+Epoch 4/5
+1172/1172 - 181s - 155ms/step - loss: 0.1122 - val_loss: 0.1708
+Epoch 5/5
+1172/1172 - 201s - 171ms/step - loss: 0.1086 - val_loss: 0.1646
+RESULT hidden64 params 18497 val_mse 0.1523 MAE degC 2.625 time 1254.9
