@@ -30,7 +30,7 @@ python src/transformer_forda.py --name baseline --epochs 60 --patience 15 --lr 3
 python src/transformer_forda.py --name wide_ff --epochs 60 --patience 15 --lr 3e-4 --batch 32 --d_model 64 --embed_kernel 7 --dropout 0.1 --mlp_dropout 0.2 --prenorm 1 --ff_dim 128
 ```
 
-## 3. Task 1 - Baselines
+## 3. Task I - Baselines
 | Model | Params | Epochs run | Train acc | Val acc | Test acc | Time/epoch |
 |---|---|---|---|---|---|---|
 | Transformer (FordA) | 1,073,554 | 31 (best 16) | 0.789 | 0.836 | **0.816** | 22 s |
@@ -59,7 +59,7 @@ Diagnosis:
 2. **A per-step projection still cannot see the shape of the waveform.** With kernel size 1 every step is embedded on its own, and attention, the feed-forward layers and the global average pooling that follow all ignore step order, so the model sees only a histogram of values. The test accuracy stayed at 0.516. On a small convolution-only model we checked separately, kernel size 1 gave 0.515 and kernel size 7 gave 0.719 test accuracy (an extra check, not saved in `results/`). Fix: kernel size 7 (`--embed_kernel 7`), so each feature covers 7 neighbouring steps.
 3. **Optimisation.** With kernel 7 the official post-norm block with lr 1e-3 only began to learn in the last epochs of a 12-epoch run (validation accuracy 0.577). Pre-norm (layer norm before attention and feed-forward) at lr 3e-4 trained steadily to 0.846 validation and 0.833 test accuracy in 12 epochs, so it was chosen for the baseline.
 
-## 4. Task 2 - Improvements (LSTM forecaster, three modifications)
+## 4. Task II - Improvements (LSTM forecaster, three modifications)
 Each change is made one at a time on top of the baseline; seed, data, optimiser, learning rate and batch size are identical. All variants and the baseline are compared at the same 5-epoch budget (the baseline row uses its best validation MSE within its first 5 epochs).
 
 | Variant | Params | Hidden x layers | Look-back (h) | Train MSE | Val MSE | Val MAE (degC) | Val RMSE (degC) |
@@ -78,7 +78,7 @@ The baseline reaches its best validation MSE of 0.1376 (about 2.51 degC mean abs
 
 **What was learned.** The best change was **look-back 360 steps (60 h) - shorter input** (-5.4% validation MSE versus the baseline at the same 5-epoch budget). Widening to 64 units gave +10.7% (worse) with 3.6x the parameters: its training loss kept falling (0.1716 to 0.1086) while validation loss rose from 0.1523 to 0.1646 over the 5 epochs, i.e. extra capacity overfits instead of helping. Stacking a second LSTM layer gave +0.7% (worse) for 2.6x the parameters, so depth did not improve the best score at this data size, although its validation curve stays flatter than the baseline's, which rises after epoch 2 (epoch-5 val MSE 0.1400 vs 0.1488). Shortening the look-back from 120 h to 60 h gave -5.4% (better) while halving the sequence length: for a 12-hour-ahead forecast the older half of the window adds noise more than signal, and a shorter input is also cheaper. So for this task the input window and regularisation matter more than model size.
 
-## 5. Task 3 - Benchmark summary
+## 5. Task III - Benchmark
 | Model | Task | Params | Headline result |
 |---|---|---|---|
 | Transformer | FordA classification | 1,073,554 | test accuracy 0.816 |
@@ -88,7 +88,7 @@ The baseline reaches its best validation MSE of 0.1376 (about 2.51 degC mean abs
 | 2 x LSTM(32) - deeper | Jena 12 h forecast | 13,473 | val MAE 2.52 degC |
 | look-back 360 steps (60 h) - shorter input | Jena 12 h forecast | 5,153 | val MAE 2.43 degC |
 
-## 6. Task 4 - Questions
+## 6. Task IV - Questions
 **Which model did you find easier to understand and why?** LSTM. Data flow through the network is one such concept: go through time steps, update a hidden state, predict based on the last hidden state; the Keras implementation takes only five lines of code. On the other hand, the Transformer requires several concepts to be applied together (query/key/value, multi-head attention, residual connections, LayerNorm, Conv1D as a position-wise dense layer, pooling), and lacks any inherent sense of order, hence the difficulty to understand its behaviour and hyper-parameters (number of heads, their size, number of blocks). Training the Transformer (section 3b) took several attempts, while the LSTM was trained successfully in the very first attempt.
 
 **What improvement did you try, and what did you learn from it?** Three variations were performed on the LSTM predictor: increase the number of units, stack a second layer on top of the first, and decrease the look-back length. The best variation turned out to be **look-back 360 steps (60 h) - shorter input** (-5.4% validation MSE with respect to the baseline within the same 5-epoch budget). Widening to 64 units yielded +10.7% (bad result) and 3.6x parameters: training loss of this version decreased from 0.1716 to 0.1086 whereas validation loss increased from 0.1523 to 0.1646 during the 5 epochs. So the increased capacity overfits instead of being helpful. Adding another LSTM layer to the architecture resulted in +0.7% (bad result) with 2.6x parameters: depth did not lead to improvement of the best score on this size of data although its validation curve is flat compared to that of the baseline (which rises after epoch 2), epoch-5 validation MSE of which is 0.1400 versus 0.1488. Reducing the look-back length from 120 h to 60 h led to -5.4% (good result) despite halving the length of the sequence: the older half of the window adds noise rather than useful information for a 12-hour forecast. The takeaway from the experiment is that the starting point is close to the point where validation error plateaus after two epochs of training, hence the gains are coming from variance reduction and input sequence length limitation.
