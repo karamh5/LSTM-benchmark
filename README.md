@@ -19,13 +19,13 @@ This repo reproduces two official Keras time-series examples that are organized 
 ```bash
 pip install tensorflow keras pandas matplotlib
 
-# LSTM forecasting (Jena Climate; the data downloads on first run)
+# LSTM forecasting (Jena Climate)
 python src/lstm_jena.py --name baseline
 python src/lstm_jena.py --name hidden64 --hidden 64 --epochs 5
 python src/lstm_jena.py --name stack2   --lstm_layers 2 --epochs 5
 python src/lstm_jena.py --name past360  --past 360 --epochs 5
 
-# Transformer classification (FordA; GPU recommended)
+# Transformer classification (FordA)
 python src/transformer_forda.py --name baseline --epochs 60 --patience 15 --lr 3e-4 --batch 32 --d_model 64 --embed_kernel 7 --dropout 0.1 --mlp_dropout 0.2 --prenorm 1
 python src/transformer_forda.py --name wide_ff --epochs 60 --patience 15 --lr 3e-4 --batch 32 --d_model 64 --embed_kernel 7 --dropout 0.1 --mlp_dropout 0.2 --prenorm 1 --ff_dim 128
 ```
